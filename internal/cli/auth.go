@@ -139,10 +139,40 @@ var authLogoutCmd = &cobra.Command{
 	},
 }
 
+var whoamiCmd = &cobra.Command{
+	Use:   "whoami",
+	Short: "Show the current authenticated user",
+	RunE: func(cmd *cobra.Command, args []string) error {
+		cfg, err := loadConfig()
+		if err != nil || cfg.APIKey == "" {
+			fmt.Println("Not authenticated")
+			os.Exit(1)
+		}
+
+		serverURL, _ := cmd.Flags().GetString("server")
+		client, err := newClientWithServer(serverURL)
+		if err != nil {
+			fmt.Println("Not authenticated")
+			os.Exit(1)
+		}
+
+		me, err := client.GetMe()
+		if err != nil {
+			return fmt.Errorf("authentication failed: %w", err)
+		}
+
+		fmt.Println(me.Email)
+		return nil
+	},
+}
+
 func init() {
 	authLoginCmd.Flags().String("key", "", "API key (oh_live_xxx or oh_test_xxx)")
 	authStatusCmd.Flags().String("server", "", "Server URL")
+	whoamiCmd.Flags().String("server", "", "Server URL")
+
 	rootCmd.AddCommand(authCmd)
+	rootCmd.AddCommand(whoamiCmd)
 	authCmd.AddCommand(authLoginCmd)
 	authCmd.AddCommand(authStatusCmd)
 	authCmd.AddCommand(authLogoutCmd)
