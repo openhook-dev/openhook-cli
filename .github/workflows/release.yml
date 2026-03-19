@@ -31,3 +31,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+
+      - name: Get version
+        id: version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Trigger APT repo update
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.APT_REPO_TOKEN }}
+          repository: openhook-dev/apt
+          event-type: release
+          client-payload: '{"version": "${{ steps.version.outputs.version }}"}'
