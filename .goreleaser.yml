@@ -50,12 +50,25 @@ brews:
       token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
     directory: Formula
     homepage: "https://openhook.dev"
-    description: "Webhook relay service for AI agents - receive events from GitHub, Stripe, Linear"
+    description: "Event routing and channels for AI agents"
     license: "MIT"
     test: |
       system "#{bin}/openhook", "--help"
     install: |
       bin.install "openhook"
+
+nfpms:
+  - id: openhook
+    package_name: openhook
+    vendor: openhook-dev
+    homepage: "https://openhook.dev"
+    maintainer: "openhook <hello@openhook.dev>"
+    description: "Event routing and channels for AI agents - receive webhooks from GitHub, Stripe, Linear and coordinate agent workflows"
+    license: "MIT"
+    formats:
+      - deb
+      - rpm
+    bindir: /usr/bin
 
 release:
   github:
