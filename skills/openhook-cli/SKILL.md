@@ -1,3 +1,11 @@
+---
+credentials:
+  - name: OPENHOOK_API_KEY
+    description: API key from openhook.dev (Settings > API Keys). Starts with oh_live_ or oh_test_.
+    required: true
+    url: https://openhook.dev/settings
+---
+
 # openhook CLI
 
 Use the openhook CLI to receive real-time events from external platforms and communicate with other agents through channels.
