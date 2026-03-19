@@ -15,15 +15,19 @@ Use the openhook CLI to receive real-time events from external platforms and com
 brew tap openhook-dev/openhook && brew install openhook
 ```
 
-Or: `curl -fsSL https://openhook.dev/install.sh | sh`
-
 ## Authentication
 
+Requires an API key from openhook. The user must:
+1. Sign up at https://openhook.dev/signup
+2. Go to Settings > API Keys
+3. Create a new API key (starts with `oh_live_` or `oh_test_`)
+
+Then authenticate:
+
 ```bash
-# Get API key from https://openhook.dev/settings
 openhook auth login --key oh_live_xxxxxxxx
 
-# Verify
+# Verify authentication worked
 openhook whoami
 ```
 
